@@ -2,15 +2,15 @@ import numpy as np
 import cv2
 
 class GradientThreshold(object):
-    def __init__(self, img, kernel=3, thres_x=(20, 200), thres_y=(45, 150), thres_mag=(35, 255),
+    def __init__(self, kernel=3, thres_x=(20, 200), thres_y=(45, 150), thres_mag=(35, 255),
                  thres_dir=(0.7, 1.3)):
-        self.img = img
+        self.img = None
+        self.gray = None
         self.kernel = kernel
         self.thres_x = thres_x
         self.thres_y = thres_y
         self.thres_mag = thres_mag
         self.thres_dir = thres_dir
-        self.gray = self._gray_scale()
 
     def _abs_sobel_x_thresh(self, ):
         sobel = self._evaluate_absolute_sobel_operator(1, 0)
@@ -59,7 +59,9 @@ class GradientThreshold(object):
     def _scale(self, sobel):
         return np.uint8(255. * sobel / np.max(sobel))
 
-    def get_gradient_threshold_combined(self, ):
+    def get_gradient_threshold_combined(self, img):
+        self.img = img
+        self.gray = self._gray_scale()
         gradx = self._abs_sobel_x_thresh()
         grady = self._abs_sobel_y_thresh()
         dir_binary = self._dir_threshold()
