@@ -1,16 +1,18 @@
 import numpy as np
 import cv2
 import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 import pickle
 
-class CameraCalibration(object):
+
+class CameraCalibrator(object):
     def __init__(self, chess_board_nx, chess_board_ny, images):
         self.chess_board_nx = chess_board_nx
         self.chess_board_ny = chess_board_ny
+        self.images = images
         self.img_size = None
-        obj = self._define_grid_points()
-        obj_points, img_points = self._get_corners(obj, images)
-        self.mtx, self.dist = self._calibrate_camera(obj_points, img_points)
+        self.mtx = None
+        self.dist = None
 
     def _define_grid_points(self, ):
         obj = np.zeros((self.chess_board_ny * self.chess_board_nx, 3), np.float32)
@@ -32,13 +34,14 @@ class CameraCalibration(object):
                 obj_points.append(obj)
                 corners2 = cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
                 img_points.append(corners2)
-        print('Founded corners for ' + str(counter) + ' images out of ' + str(len(images)))
+        print('Camera ready!')
         return obj_points, img_points
 
-    def _calibrate_camera(self, obj_points, img_points):
-        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, self.img_size, None, None)
-        self.save_calibration_results(mtx, dist)
-        return mtx, dist
+    def calibrate_camera(self, ):
+        obj = self._define_grid_points()
+        obj_points, img_points = self._get_corners(obj, self.images)
+        ret, self.mtx, self.dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, self.img_size, None, None)
+        self.save_calibration_results(self.mtx, self.dist)
 
     def undistort_image(self, img):
         return cv2.undistort(img, self.mtx, self.dist, None, self.mtx)
@@ -51,3 +54,13 @@ class CameraCalibration(object):
         dist_pickle["mtx"] = mtx
         dist_pickle["dist"] = dist
         pickle.dump(dist_pickle, open("calibration.p", "wb"))
+        return None
+
+    def plot_calibration_check(self, image):
+        undistored_image = self.undistort_image(image)
+        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 10))
+        ax1.set_title('Orignal Image')
+        ax1.imshow(image)
+        ax2.set_title('Undistorted Image')
+        ax2.imshow(undistored_image)
+        return None

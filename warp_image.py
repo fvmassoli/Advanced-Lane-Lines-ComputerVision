@@ -9,21 +9,25 @@ class WarpImage(object):
         self.img = img
         self.src = src
         self.dst = dst
+        self.warped_image = None
 
     def warp_image(self, ):
         img_size = (self.img.shape[1], self.img.shape[0])
-        M = cv2.getPerspectiveTransform(self.src, self.dst)
-        warped_imge = cv2.warpPerspective(self.img, M, img_size, flags=cv2.INTER_LINEAR)
+        self.M = cv2.getPerspectiveTransform(self.src, self.dst)
+        self.Minv = cv2.getPerspectiveTransform(self.dst, self.src)
+        warped_imge = cv2.warpPerspective(self.img, self.M, img_size, flags=cv2.INTER_LINEAR)
+        self.histogram = np.sum(warped_imge[int(warped_imge.shape[0] / 2):, :], axis=0)
+        self.warped_image = warped_imge
         return warped_imge
 
-    def draw_images(self, warped_image):
+    def draw_images(self, ):
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 15))
-        ax2.imshow(self.img, cmap='gray')
-        rect = patches.Polygon(self.src, closed=True, fill=False, edgecolor='b')
-        ax2.add_patch(rect)
-        ax1.imshow(warped_image, cmap='gray')
+        ax1.imshow(self.img, cmap='gray')
+        rect = patches.Polygon(self.src, closed=True, fill=False, edgecolor='y')
+        ax1.add_patch(rect)
+        ax2.imshow(self.warped_image, cmap='gray')
         plt.show()
 
-    def get_image_histo(self, warped_image):
-        histogram = np.sum(warped_image[int(warped_image.shape[0] / 2):, :], axis=0)
-        return histogram
+    def plot_histogram(self, ):
+        histogram = np.sum(self.warped_image[int(self.warped_image.shape[0] / 2):, :], axis=0)
+        plt.plot(histogram)

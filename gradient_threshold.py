@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-class GradientThresholdImage(object):
+class GradientThreshold(object):
     def __init__(self, img, kernel=3, thres_x=(20, 200), thres_y=(45, 150), thres_mag=(35, 255),
                  thres_dir=(0.7, 1.3)):
         self.img = img
