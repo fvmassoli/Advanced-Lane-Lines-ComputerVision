@@ -56,11 +56,13 @@ class CameraCalibrator(object):
         pickle.dump(dist_pickle, open("calibration.p", "wb"))
         return None
 
-    def plot_calibration_check(self, image):
+    def plot_calibration_check(self, image, i, save=False, path='./'):
         undistored_image = self.undistort_image(image)
         f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 10))
         ax1.set_title('Orignal Image')
         ax1.imshow(image)
         ax2.set_title('Undistorted Image')
         ax2.imshow(undistored_image)
-        return None
+        if save:
+            filename = path+str(i)+'.jpg'
+            plt.savefig(filename)

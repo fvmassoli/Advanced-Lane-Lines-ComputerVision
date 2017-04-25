@@ -25,12 +25,12 @@ class LaneLines():
         if len(self.old_lanes) >= self.max_nb_acquired_lanes:
             self.old_lanes.pop(0)
         # self.old_lanes.append(copy.copy(self.lane))
-        self.old_lanes.append(copy.copy(self))
+        self.old_lanes.append(self)
         self.smooth_fit(binary_warped)
 
     def set_search_mode(self, binary_warp):
         '''
-        Start a full search for lane lines or uses previously knowledge
+        Start a full search for lane lines or uses previously knowledge 
         '''
         if self.full_search_mode:
             self.start_full_search(binary_warp)
@@ -261,10 +261,12 @@ class LaneLines():
         newwarp = cv2.warpPerspective(color_warp, Minv, self.img_shape)
         # image = cv2.warpPerspective(image, Minv, self.img_shape)
         left_curvature, right_curvature = self.calculate_curvature(real=True)
+
         cv2.putText(image, "Curvature: " + str(int(left_curvature)) + '(m)',
-                    (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), thickness=3)
+                    (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 0, 0), thickness=3)
         cv2.putText(image, str(self.calculate_relative_position()),
                     (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), thickness=3)
+
         result = cv2.addWeighted(image, 1, newwarp, 0.3, 0)
         return result
 
