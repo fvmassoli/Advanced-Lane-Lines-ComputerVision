@@ -53,74 +53,40 @@ I then combined the color and gradient masks by calling method get_color_gradien
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-
-
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
-```
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-
-```
-This resulted in the following source and destination points:
+The code for my perspective transform includes a function called `warp_image()`, which appears in the cell 6 of the notebook.  The `warp_image()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I used the following points for source and destination:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+| 205, 720      | 205, 720        | 
+| 1180, 720      | 1120, 720      |
+| 780, 480     | 1120, 0      |
+| 555, 480      | 205, 0        |
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text][image4]
+Before to warp the image I also applied a mask in order to select the region of the interest. The mask is applied by means of the method region_of_interest() implemented in the cell number 6 of the ntotebook. The result of the warp procedure on a test image is the following:
 
+![alt text](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/blob/master/output_images/pipeline_result_images/warp_image.jpg "Warp image")
 
+#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
+In order to find the lane lines I used the code provided by udacity that I then modified. All the code relative to this goal is implemented in the `lane_lines.py` files (lines 40-282). I used the sliding windo technique. 
 
+For the first image the algorithm moves through the windows (lines 40-118). Next I use the previous fit in order to locate the lane lines (lines 128-154).
 
+The final step is to convert back the image to the real world and highlight the lane line. The relative code is implemented in the `lane_lines.py` file (lines 248-271)
 
+The result of previous procedure is shown in the figure below:
 
+![alt text](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/blob/master/output_images/pipeline_result_images/pipeline_results.jpg "Pipeline result")
 
+#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
+In order to evaluate the radius of curvature and the position of the vehicle with respect to the center I basically used the code given by udacity plus some hints from various blogs such as Stack Overflow. I refactored it for my convenience and the final implementation is in the `lane_lines.py` file (lines 217-246 and 273-279)
 
+### Pipeline (video)
 
-
-
-
-
-
-
-
-####4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
-
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
-
-![alt text][image5]
-
-####5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
-
-I did this in lines # through # in my code in `my_other_file.py`
-
-####6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
-
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
-
-![alt text][image6]
-
----
-
-###Pipeline (video)
-
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+#### 1. Provide a link to your final video output. Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
 Here's a [link to my video result](./project_video.mp4)
 
