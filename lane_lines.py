@@ -16,7 +16,7 @@ class LaneLines():
         self.minpix = minpix
         self.img_shape = (1280, 720)
 
-    def lane_lines_full_search(self, img, binary_warped):
+    def lane_lines_full_search(self, binary_warped):
         left_lane_inds = []
         right_lane_inds = []
         self.binary_warped = binary_warped
@@ -103,33 +103,32 @@ class LaneLines():
         plt.ylim(720, 0)
 
     def plot(self, plot_img=True):
-        out_img = np.dstack(
-            (self.binary_warped, self.binary_warped, self.binary_warped)) * 255
+
+        out_img = np.dstack((self.binary_warped, self.binary_warped, self.binary_warped)) * 255
         window_img = np.zeros_like(out_img)
-        out_img[self.nonzeroy[self.left_lane_inds],
-                self.nonzerox[self.left_lane_inds]] = [255, 0, 0]
-        out_img[self.nonzeroy[self.right_lane_inds],
-                self.nonzerox[self.right_lane_inds]] = [0, 0, 255]
-        left_line_window1 = np.array(
-            [np.transpose(np.vstack([self.fit_leftx - self.margin, self.fity]))])
-        left_line_window2 = np.array(
-            [np.flipud(np.transpose(np.vstack([self.fit_leftx + self.margin, self.fity])))])
+        out_img[self.nonzeroy[self.left_lane_inds], self.nonzerox[self.left_lane_inds]] = [255, 0, 0]
+        out_img[self.nonzeroy[self.right_lane_inds], self.nonzerox[self.right_lane_inds]] = [0, 0, 255]
+
+        left_line_window1 = np.array([np.transpose(np.vstack([self.fit_leftx - self.margin, self.fity]))])
+        left_line_window2 = np.array([np.flipud(np.transpose(np.vstack([self.fit_leftx + self.margin, self.fity])))])
         left_line_pts = np.hstack((left_line_window1, left_line_window2))
-        right_line_window1 = np.array(
-            [np.transpose(np.vstack([self.fit_rightx - self.margin, self.fity]))])
-        right_line_window2 = np.array(
-            [np.flipud(np.transpose(np.vstack([self.fit_rightx + self.margin, self.fity])))])
+
+        right_line_window1 = np.array([np.transpose(np.vstack([self.fit_rightx - self.margin, self.fity]))])
+        right_line_window2 = np.array([np.flipud(np.transpose(np.vstack([self.fit_rightx + self.margin, self.fity])))])
         right_line_pts = np.hstack((right_line_window1, right_line_window2))
+
         # Draw the lane onto the warped blank image
         cv2.fillPoly(window_img, np.int_([left_line_pts]), (0, 255, 0))
         cv2.fillPoly(window_img, np.int_([right_line_pts]), (0, 255, 0))
         result = cv2.addWeighted(out_img, 1, window_img, 0.3, 0)
+
         if plot_img:
-            plt.imshow(result)
-            plt.plot(self.fit_leftx, self.fity, color='yellow', linewidth=5.0)
-            plt.plot(self.fit_rightx, self.fity, color='yellow', linewidth=5.0)
-            plt.xlim(0, 1280)
-            plt.ylim(720, 0)
+            # plt.imshow(result)
+            # plt.plot(self.fit_leftx, self.fity, color='yellow', linewidth=5.0)
+            # plt.plot(self.fit_rightx, self.fity, color='yellow', linewidth=5.0)
+            # plt.xlim(0, 1280)
+            # plt.ylim(720, 0)
+            return result, self.fit_leftx, self.fit_rightx, self.fity
         else:
             return result
 
