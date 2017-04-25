@@ -92,16 +92,17 @@ I tested the pipeline on the three given video. The results are in the folder ou
 
 Here are the links to the videos:
 
+[link to project_video result](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/tree/master/output_video/project_video_output.mp4)
 
-[link to my video result](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/tree/master/output_video/project_video_output.mp4)
+[link to challenge_video result](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/tree/master/output_video/challenge_video_output.mp4)
 
-
+[link to harder_challenge_video result](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/tree/master/output_video/harder_challenge_video_output.mp4)
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
