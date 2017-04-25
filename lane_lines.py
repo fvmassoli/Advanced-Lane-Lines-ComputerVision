@@ -262,10 +262,10 @@ class LaneLines():
         # image = cv2.warpPerspective(image, Minv, self.img_shape)
         left_curvature, right_curvature = self.calculate_curvature(real=True)
 
-        cv2.putText(image, "Curvature: " + str(int(left_curvature)) + '(m)',
-                    (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 0, 0), thickness=3)
-        cv2.putText(image, str(self.calculate_relative_position()),
-                    (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), thickness=3)
+        cv2.putText(image, "Curvature: " + str(int(left_curvature)) + ' (m)',
+                    (100, 80), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), thickness=3)
+        cv2.putText(image, str("%.2f" % self.calculate_relative_position()),
+                    (100, 170), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), thickness=3)
 
         result = cv2.addWeighted(image, 1, newwarp, 0.3, 0)
         return result
