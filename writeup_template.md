@@ -70,11 +70,11 @@ Before to warp the image I also applied a mask in order to select the region of 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-In order to find the lane lines I used the code provided by udacity that I then modified. All the code relative to this goal is implemented in the `lane_lines.py` files (lines 40-282). I used the sliding windo technique. 
+In order to find the lane lines I used the code provided by udacity that I then modified. All the code relative to this goal is implemented in the `lane_lines.py` files (lines 39-134). I used the sliding window technique. 
 
-For the first image the algorithm moves through the windows (lines 40-118). Next I use the previous fit in order to locate the lane lines (lines 128-154).
+For the first image the algorithm moves through the windows (lines 39-108). Next I use the previous fit in order to locate the lane lines (lines 110-134).
 
-The final step is to convert back the image to the real world and highlight the lane line. The relative code is implemented in the `lane_lines.py` file (lines 248-271)
+The final step is to convert back the image to the real world and highlight the lane line. The relative code is implemented in the `lane_lines.py` file (lines 160-180)
 
 The result of previous procedure is shown in the figure below:
 
@@ -82,7 +82,7 @@ The result of previous procedure is shown in the figure below:
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-In order to evaluate the radius of curvature and the position of the vehicle with respect to the center I basically used the code given by udacity plus some hints from various blogs such as Stack Overflow. I refactored it for my convenience and the final implementation is in the `lane_lines.py` file (lines 217-246 and 273-279)
+In order to evaluate the radius of curvature and the position of the vehicle with respect to the center I basically used the code given by udacity plus some hints from various blogs such as Stack Overflow. I refactored it for my convenience and the final implementation is in the `lane_lines.py` file (lines 210-231)
 
 ### Pipeline (video)
 
@@ -104,5 +104,9 @@ Here are the links to the videos:
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
+During the development of the code I faced several optimization problem. It is not hard to implement a working code but it is really hard to tune it and to find the proper to choose some model parameter. I spent a lot time trying several threshold values for gradient and color masks. It also took some time to figure out how to combine the different gradients (x, y, mag and dir) among them. I think the code can fail (and it actually does) on the harder_challenge video due to two main factors: the fix area in which the code looks for lane lines, the high variability in the brightness of the image. I tried to use image equalization but it wan't enough.
 
+Another crucial point regards the selection on the minimum number of pixels required to inside a search window in order to identify a lane candidate. Currently it is a fixed parameter but I think that it should vary somehow. That fact can bery fundamental in cases where the lane lines are not perfectly visible and such a situation indeed happen in the challenge video. I think that using camera images from different angles can help improving all these aspects. 
+
+A possible improvement could be also to use statistical inference based on some template that could give the "likelihood" of a search result.
 
