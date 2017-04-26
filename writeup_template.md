@@ -22,7 +22,7 @@ The code for the camera calibration is contained in the cells 2 and 3 of the pyt
 
 All the imageds are contained in the output_images/calibration_images folder.
 
-The code used to calibrate the camera is located into the `camera_calibrator.py` (lines 40-44) file.
+The code used to calibrate the camera is located into the `camera_calibrator.py` file (lines 40-44).
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world using the np.mgrid method. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `obj` is just a replicated array of coordinates, and `obj_points` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `img_points` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
