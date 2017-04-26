@@ -18,7 +18,7 @@ The goals / steps of this project are the following:
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for the camera calibration is contained in the cells 2 and 3 of the python notebook. The cells 4 and 5 are usde to plot some resutls from the calibration. In particular the cell number3 shows the result on the calibration images while the cell number 4 shows the results on test images.
+The code for the camera calibration is contained in the cells 2 and 3 of the python notebook. The cells 4 and 5 are usde to plot some resutls from the calibration. In particular the cell number 4 shows the result on the calibration images while the cell number 5 shows the results on test images.
 
 All the imageds are contained in the output_images/calibration_images folder.
 
