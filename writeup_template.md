@@ -104,7 +104,9 @@ Here are the links to the videos:
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-During the development of the code I faced several optimization problem. It is not hard to implement a working code but it is really hard to tune it and to find the proper to choose some model parameter. I spent a lot time trying several threshold values for gradient and color masks. It also took some time to figure out how to combine the different gradients (x, y, mag and dir) among them. I think the code can fail (and it actually does) on the harder_challenge video due to two main factors: the fix area in which the code looks for lane lines, the high variability in the brightness of the image. I tried to use image equalization but it wan't enough.
+During the development of the code I faced several optimization problems. It is not hard to implement a working code but it is really hard to tune it and to find the proper way to set some model parameter. I spent a lot time trying different threshold values for gradient and color masks. It also took some time to figure out how to combine the different gradients (x, y, mag and dir) among them. 
+
+Currently, I think the code can fail (and it actually does) on the harder_challenge video due to two main factors: the fix area in which the code looks for lane lines, the high variability in the brightness of the image. I tried to use image equalization but it wan't enough.
 
 Another crucial point regards the selection on the minimum number of pixels required to inside a search window in order to identify a lane candidate. Currently it is a fixed parameter but I think that it should vary somehow. That fact can bery fundamental in cases where the lane lines are not perfectly visible and such a situation indeed happen in the challenge video. I think that using camera images from different angles can help improving all these aspects. 
 
