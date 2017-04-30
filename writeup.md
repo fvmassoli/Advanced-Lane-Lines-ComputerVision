@@ -18,13 +18,13 @@ The goals / steps of this project are the following:
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for the camera calibration is contained in the cells 2 and 3 of the python notebook. The cells 4 and 5 are usde to plot some resutls from the calibration. In particular the cell number 4 shows the result on the calibration images while the cell number 5 shows the results on test images.
+The code for the camera calibration is contained in the cells 2 and 3 of the python notebook. The cells 4 and 5 are used to plot some results from the calibration. In particular the cell number 4 shows the result on the calibration images while the cell number 5 shows the results on test images.
 
 All the imageds are contained in the output_images/calibration_images folder.
 
 The code used to calibrate the camera is located into the `camera_calibrator.py` file (lines 40-44).
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world using the np.mgrid method. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `obj` is just a replicated array of coordinates, and `obj_points` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `img_points` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
+I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world using the np.mgrid method. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, so that the object points are the same for each calibration image.  Thus, `obj` is just a replicated array of coordinates, and `obj_points` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `img_points` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
 Among the 20 given calibration images, only 17 of them share the same number of corners (9x6) and for that reason the camera has been calibrate only on 17 images.
 
@@ -45,9 +45,9 @@ I used a combination of color and gradient thresholds to generate a binary image
 
 The color mask is applied through the method apply_color_threshold() implemented in the cell 6 of the notebook. The color threshold is applied to an hsv image. The conversion from the RGB to the HSV color spaces has been implemented using the cv2.cvtColor() function.
 
-A gradient threshold has also been applied by means of the sobel operators. The code the graident mask is located into the `gradient_threhold.py` file (lines 62-71). 
+A gradient threshold has also been applied by means of the sobel operators. The code for the gradient mask is located into the `gradient_threhold.py` file (lines 62-71). 
 
-I then combined the color and gradient masks by calling method get_color_gradient_combined() implemented in the cell 6 of the notebook. Here is an example of graient and color thresholds applied to a test image:
+I then combined the color and gradient masks by calling method get_color_gradient_combined() implemented in the cell 6 of the notebook. Here is an example of gradient and color thresholds applied to a test image:
 
 ![alt text](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/blob/master/output_images/pipeline_result_images/color_gradient_threshold.jpg " ")
 
@@ -64,7 +64,7 @@ The code for my perspective transform includes a function called `warp_image()`,
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-Before to warp the image I also applied a mask in order to select the region of the interest. The mask is applied by means of the method region_of_interest() implemented in the cell number 6 of the ntotebook. The result of the warp procedure on a test image is the following:
+Before to warp the image I also applied a mask in order to select the region of the interest. The mask is applied by means of the method region_of_interest() implemented in the cell number 6 of the notebook. The result of the warp procedure on a test image is the following:
 
 ![alt text](https://github.com/fvmassoli/CarND-Advanced-Lane-Lines-P4/blob/master/output_images/pipeline_result_images/warp_image.jpg "Warp image")
 
@@ -106,9 +106,9 @@ Here are the links to the videos:
 
 During the development of the code I faced several optimization problems. It is not hard to implement a working code but it is really hard to tune it and to find the proper way to set some model parameter. I spent a lot time trying different threshold values for gradient and color masks. It also took some time to figure out how to combine the different gradients (x, y, mag and dir) among them. 
 
-Currently, I think the code can fail (and it actually does) on the harder_challenge video due to two main factors: the fix area in which the code looks for lane lines, the high variability in the brightness of the image. I tried to use image equalization but it wan't enough.
+Currently, I think the code can fail (and it actually does) on the harder_challenge video due to two main factors: the fix area in which the code looks for lane lines, the high variability in the brightness of the image. I tried to use image equalization but it wasn't enough.
 
-Another crucial point regards the selection on the minimum number of pixels required to inside a search window in order to identify a lane candidate. Currently it is a fixed parameter but I think that it should vary somehow. That fact can bery fundamental in cases where the lane lines are not perfectly visible and such a situation indeed happen in the challenge video. I think that using camera images from different angles can help improving all these aspects. 
+Another crucial point regards the selection on the minimum number of pixels required to inside a search window in order to identify a lane candidate. Currently it is a fixed parameter but I think that it should vary somehow. That fact can be very fundamental in cases where the lane lines are not perfectly visible and such a situation indeed happen in the challenge video. I think that using camera images from different angles can help improving all these aspects. 
 
 A possible improvement could be also to use statistical inference based on some template that could give the "likelihood" of a search result.
 
